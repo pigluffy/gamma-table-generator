@@ -46,9 +46,9 @@
       <div class="form-group">
         <label for="gamma" class="col-sm-2 control-label">Gamma</label>
         <div class="col-sm-10">
-          <input id="gamma" type="text" class="form-control" placeholder="" value="2.0">
+          <input id="gamma" type="text" class="form-control" placeholder="" value="2.2">
           <div>
-            Gamma correction value (recommend between 1.5 - 3.0)
+            Gamma correction value (don't fill in a value lower than 1.00)
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
       <div class="form-group">
         <label for="steps" class="col-sm-2 control-label">Steps</label>
         <div class="col-sm-10">
-          <input id="steps" type="text" class="form-control" placeholder="" value="256">
+          <input id="steps" type="text" class="form-control" placeholder="" value="100">
           <div>
             This will be the size of your array
           </div>
@@ -64,9 +64,19 @@
       </div>
 
       <div class="form-group">
+        <label for="minValue" class="col-sm-2 control-label">Min Value</label>
+        <div class="col-sm-10">
+          <input id="minValue" type="text" class="form-control" placeholder="" value="0">
+          <div>
+            Minimum PWM value.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
         <label for="maxValue" class="col-sm-2 control-label">Max Value</label>
         <div class="col-sm-10">
-          <input id="maxValue" type="text" class="form-control" placeholder="" value="1023">
+          <input id="maxValue" type="text" class="form-control" placeholder="" value="100">
           <div>
             Maximum PWM value. (8-bit = 255, 10-bit = 1023)
           </div>
@@ -117,28 +127,57 @@
       return arr;
     }
 
+    function generateGammaTable_1(gamma, steps, minVal, resolution) {
+      var arr_1 = new Array(steps * 100).fill(0)
+        .map((x, i) => Math.pow(i, gamma))
+      arr_1 = arr_1.map(x => x / Math.max(...arr_1))
+        .map(x => Math.min(resolution, Math.round(x * resolution)));
+        
+        
+      var arr_2 = new Array(steps).fill(0);
+
+      var i;
+      for (i = 0; i < steps * 100; i++) {
+        if (arr_1[i] >= minVal)
+          break;
+      }
+
+      var amount_val = Math.floor((steps * 100 - i) / steps);
+      var arr_1_index;
+      for (var j = 0; j < steps; j++) {
+        if (j == steps - 1)
+          arr_1_index = steps * 100 - 1;
+        else
+          arr_1_index = i + j * amount_val;
+        arr_2[j] = arr_1[arr_1_index];
+      }
+
+      return arr_2;
+    }
 
     function generate() {
 
       var gamma = parseFloat(document.querySelector('#gamma').value);
       var steps = parseFloat(document.querySelector('#steps').value);
       var maxValue = parseFloat(document.querySelector('#maxValue').value);
+      var minValue = parseFloat(document.querySelector('#minValue').value);
 
       var lookupTable = generateGammaTable(gamma, steps, maxValue);
+      var lookupTable_1 = generateGammaTable_2(gamma, steps, minValue, maxValue);
 
       var varName = 'gamma_lut';
       var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65535 ? 'uint16_t' : 'uint32_t';
 
       var snippet = (
         `// Gamma brightness lookup table <https://victornpb.github.io/gamma-table-generator>
-// gamma = ${gamma.toFixed(2)} steps = ${steps} range = 0-${maxValue}
+// gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}
 const ${varType} ${varName}[${steps}] = {
-  ${lookupTable.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % 16 === 0 ? ',\n  ' : ',')).join('')}};`);
+  ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % 10 === 0 ? ',\n  ' : ',')).join('')}};`);
 
       output.innerText = snippet;
       //copy(output);
 
-      plotChart(gamma, steps, maxValue, lookupTable);
+      plotChart(gamma, steps, minValue, maxValue, lookupTable);
     }
 
 
@@ -156,7 +195,7 @@ const ${varType} ${varName}[${steps}] = {
     }
 
 
-    function plotChart(gamma, steps, maxValue, lookupTable) {
+    function plotChart(gamma, steps, minValue, maxValue, lookupTable) {
       Highcharts.chart('chart', {
         chart: {
           type: 'line',
@@ -171,7 +210,7 @@ const ${varType} ${varName}[${steps}] = {
           text: 'Gamma curve'
         },
         subtitle: {
-          text: `gamma = ${gamma.toFixed(2)} steps = ${steps} range = 0-${maxValue}`
+          text: `gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}`
         },
         plotOptions: {
           line: {
@@ -219,14 +258,22 @@ const ${varType} ${varName}[${steps}] = {
             type: "line",
             step: "left",
             data: lookupTable.map((y, i) => i * (maxValue / steps)),
-            color: '#cccccc'
+            color: '#808000'
           },
           {
             name: `Gamma ${gamma}`,
             type: "line",
             step: "left",
             data: lookupTable,
-            color: '#000088'
+            zones: [
+              {
+                value: minValue,
+                color: '#C0C0C0'
+              },
+              {
+                color: '#000088'
+              }
+            ]
           },
         ],
 
