@@ -1,5 +1,5 @@
 # gamma-table-generator
-Click here to use it [Online Gamma Table Generator](https://victornpb.github.io/gamma-table-generator/)
+Click here to use it [Online Gamma Table Generator](https://pigluffy.github.io/gamma-table-generator/)
 
 -----
 
