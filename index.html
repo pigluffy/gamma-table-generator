@@ -48,7 +48,7 @@
         <div class="col-sm-10">
           <input id="gamma" type="text" class="form-control" placeholder="" value="2.2">
           <div>
-            Gamma correction value (don't fill in a value lower than 0.50)
+            Gamma correction value.
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@
         <div class="col-sm-10">
           <input id="minIndex" type="text" class="form-control" placeholder="" value="1">
           <div>
-            This will be the size from 0 to (Array_Max_Index - Array_Min_Index + 1) of your array
+            This will be the size from 0 to (Array_Max_Index - Array_Min_Index + 1) of your array.
           </div>
         </div>
       </div>
@@ -68,7 +68,7 @@
         <div class="col-sm-10">
           <input id="maxIndex" type="text" class="form-control" placeholder="" value="100">
           <div>
-            This will be the size from 0 to (Array_Max_Index - Array_Min_Index + 1) of your array
+            This will be the size from 0 to (Array_Max_Index - Array_Min_Index + 1) of your array.
           </div>
         </div>
       </div>
@@ -155,7 +155,9 @@
       var amount_val = Math.floor((steps * 50 - i) / steps);
       var arr_1_index;
       for (var j = 0; j < steps; j++) {
-        if (j == steps - 1)
+        if (j == 0 )
+          arr_1_index = 0;
+        else if (j == steps - 1)
           arr_1_index = steps * 50 - 1;
         else
           arr_1_index = i + Math.floor(j * (steps * 50 - i) / steps);
