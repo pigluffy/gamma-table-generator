@@ -152,16 +152,16 @@
           break;
       }
 
-      var amount_val = Math.floor((steps * 50 - i) / steps);
-      var arr_1_index;
       for (var j = 0; j < steps; j++) {
-        if (j == 0 )
-          arr_1_index = 0;
-        else if (j == steps - 1)
-          arr_1_index = steps * 50 - 1;
-        else
-          arr_1_index = i + Math.floor(j * (steps * 50 - i) / steps);
-        arr_2[j] = arr_1[arr_1_index];
+        if (j == 0 ) {
+          arr_2[0] = minVal;
+        }
+        else {
+          if (j == steps - 1)
+            arr_2[j] = arr_1[steps * 50 - 1];
+          else
+            arr_2[j] = arr_1[i + Math.floor(j * (steps * 50 - i) / steps)];
+        }
       }
 
       return arr_2;
