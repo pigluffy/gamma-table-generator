@@ -138,7 +138,7 @@
     }
 
     function generateGammaTable_1(gamma, steps, minVal, resolution) {
-      var arr_1 = new Array(steps * 100).fill(0)
+      var arr_1 = new Array(steps * 50).fill(0)
         .map((x, i) => Math.pow(i, gamma))
       arr_1 = arr_1.map(x => x / Math.max(...arr_1))
         .map(x => Math.min(resolution, Math.round(x * resolution)));
@@ -147,16 +147,16 @@
       var arr_2 = new Array(steps).fill(0);
 
       var i;
-      for (i = 0; i < steps * 100; i++) {
+      for (i = 0; i < steps * 50; i++) {
         if (arr_1[i] >= minVal)
           break;
       }
 
-      var amount_val = Math.floor((steps * 100 - i) / steps);
+      var amount_val = Math.floor((steps * 50 - i) / steps);
       var arr_1_index;
       for (var j = 0; j < steps; j++) {
         if (j == steps - 1)
-          arr_1_index = steps * 100 - 1;
+          arr_1_index = steps * 50 - 1;
         else
           arr_1_index = i + j * amount_val;
         arr_2[j] = arr_1[arr_1_index];
