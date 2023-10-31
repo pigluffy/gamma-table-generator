@@ -88,7 +88,7 @@
         <div class="col-sm-10">
           <input id="maxValue" type="text" class="form-control" placeholder="" value="100">
           <div>
-            Maximum PWM value. (8-bit = 255, 10-bit = 1023)
+            Maximum PWM value. (8-bit = 255, 10-bit = 1023, 16-bit = 65535, 32-bit = 0xFFFFFFFF)
           </div>
         </div>
       </div>
@@ -180,7 +180,7 @@
       var lookupTable_1 = generateGammaTable_1(gamma, steps, minValue, maxValue);
 
       var varName = 'gamma_lut';
-      var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65535 ? 'uint16_t' : 'uint32_t';
+      var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65536 ? 'uint16_t' : 'uint32_t';
 
       var snippet = (
         `// Gamma brightness lookup table <https://victornpb.github.io/gamma-table-generator>
