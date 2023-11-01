@@ -183,7 +183,7 @@
       var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65536 ? 'uint16_t' : 'uint32_t';
 
       var snippet = (
-        `// Gamma brightness lookup table <https://victornpb.github.io/gamma-table-generator>
+        `// Gamma brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
 // gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}
 const ${varType} ${varName}[${steps}] = {
   ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % 10 === 0 ? ',\n  ' : ',')).join('')}};`);
