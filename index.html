@@ -300,15 +300,18 @@ const ${varType} ${varName}[${steps}] = {
           shared: true,
           pointFormatter: function () {
             if (this.x < gamma_index) {
+              lastX = this.x;
               //return `x: ${lookupTable[this.x]}`;
               return null;
             }
-            else {
-              if(this.x == 100)
+            if (this.x != lastX) {
+              lastX = this.x;
+              if(this.x == 100) 
                 return `bri: ${this.x}%, PWM: ${maxValue}`;
               else
                 return `bri: ${Math.floor(Math.pow(this.x/100, gamma)*100)}%, PWM: ${lookupTable_1[Math.floor((this.x - gamma_index) / (100 - gamma_index) * (steps - 1)+0.5)]}`;
             }
+            return null;
           }
         },
 
