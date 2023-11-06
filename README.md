@@ -19,4 +19,4 @@ When an LED emits light, gamma correction is used to account for the power-law r
 
 ----
 
-[<img src="https://blogger.googleusercontent.com/img/a/AVvXsEgKnjWc0w-NnLnqMRFsC5QPvZAT-RzVclD-qSCxtCSjT21ZUoVjD6vRyLiAxK_Uq7Wr8LQN_de_dqy9QniG5F-ByhAKTIEAICDU2fBTQB4DBwZmZNJ2co8IQOELFAb0MZp3_7z_pDqMRyMZ9teEHTXvFPOi1tcq07pbdggQ_IGlGv2n-R_IN8LsJwlaieu3">](https://pigluffy.github.io/gamma-table-generator/index.html)
+[<img src="https://blogger.googleusercontent.com/img/a/AVvXsEhnn1jg2ef-JvGEUzfI96jLYM7yFAXAtdwIY8swP1HjYAf0wuLHZjIkiXmzeuTxHo0McolgdGvXCvfhVklkmpKuXRmm-YPL_ezR7rP7BXMSLNdT7QzPj_7Uaigk_bl1X6eux9I6YioepscQOV7WqANRa6XY1glVqhyjDOjTcCbR75MjWa3NHpw6vuKA2Bvx">](https://pigluffy.github.io/gamma-table-generator/index.html)
