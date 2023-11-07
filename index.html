@@ -212,7 +212,7 @@
 
       var snippet = (
         `// Gamma brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
-// gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}
+// gamma = ${gamma.toFixed(2)}  min_ligBri = ${minLigPercent}%  steps = ${steps}  range = ${minValue}-${maxValue}
 const ${varType} ${varName}[${steps}] = {
   ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % rowLen === 0 ? ',\n  ' : ',')).join('')}};`);
 
