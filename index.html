@@ -46,29 +46,69 @@
       <div class="form-group">
         <label for="gamma" class="col-sm-2 control-label">Gamma</label>
         <div class="col-sm-10">
-          <input id="gamma" type="text" class="form-control" placeholder="" value="2.0">
+          <input id="gamma" type="text" class="form-control" placeholder="" value="2.2">
           <div>
-            Gamma correction value (recommend between 1.5 - 3.0)
+            Gamma correction value.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="steps" class="col-sm-2 control-label">Steps</label>
+        <label for="minLigPercent" class="col-sm-2 control-label">Min Light Brightness percent</label>
         <div class="col-sm-10">
-          <input id="steps" type="text" class="form-control" placeholder="" value="256">
+          <input id="minLigPercent" type="text" class="form-control" placeholder="" value="10">
           <div>
-            This will be the size of your array
+            Minimum percentage of light brightness. (%)
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="rowLen" class="col-sm-2 control-label">Row Length</label>
+        <div class="col-sm-10">
+          <input id="rowLen" type="text" class="form-control" placeholder="" value="10">
+          <div>
+            The length of each row in the Lookup Table.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="maxValue" class="col-sm-2 control-label">Max Value</label>
+        <label for="minIndex" class="col-sm-2 control-label">Min_Array_Index</label>
         <div class="col-sm-10">
-          <input id="maxValue" type="text" class="form-control" placeholder="" value="1023">
+          <input id="minIndex" type="text" class="form-control" placeholder="" value="1">
           <div>
-            Maximum PWM value. (8-bit = 255, 10-bit = 1023)
+            This will be the size from 0 to (Max_Array_Index - Min_Array_Index + 1) of your array.
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="maxIndex" class="col-sm-2 control-label">Max_Array_Index</label>
+        <div class="col-sm-10">
+          <input id="maxIndex" type="text" class="form-control" placeholder="" value="100">
+          <div>
+            This will be the size from 0 to (Max_Array_Index - Min_Array_Index + 1) of your array.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="minValue" class="col-sm-2 control-label">Min PWM Value</label>
+        <div class="col-sm-10">
+          <input id="minValue" type="text" class="form-control" placeholder="" value="0">
+          <div>
+            Minimum PWM value.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="maxValue" class="col-sm-2 control-label">Max PWM Value</label>
+        <div class="col-sm-10">
+          <input id="maxValue" type="text" class="form-control" placeholder="" value="100">
+          <div>
+            Maximum PWM value. (8-bit = 255, 10-bit = 1023, 16-bit = 65535 32-bit = over 65535)
           </div>
         </div>
       </div>
@@ -117,28 +157,70 @@
       return arr;
     }
 
+    function generateGammaTable_1(gamma, steps, minVal, resolution, minLig, maxLig) {
+      var arr_1 = new Array(steps * 50).fill(0)
+        .map((x, i) => Math.pow(i, gamma))
+      arr_1 = arr_1.map(x => x / Math.max(...arr_1))
+        .map(x => Math.min(maxLig, Math.round(x * maxLig)));
+        
+        
+      var arr_2 = new Array(steps).fill(0);
+
+      var i;
+      for (i = 0; i < steps * 50; i++) {
+        if (arr_1[i] >= minLig)
+          break;
+      }
+
+      for (var j = 0; j < steps; j++) {
+        if (j == 0 ) 
+          arr_2[0] = minVal;
+        else {
+          if (j == steps - 1)
+            arr_2[j] = resolution;
+          else
+            arr_2[j] = minVal + Math.floor(( resolution - minVal ) * (arr_1[i + Math.floor(j * (steps * 50 - i - 1) / (steps - 1))] - arr_1[i] )/(maxLig - arr_1[i])+0.5);
+        }
+      }
+
+      return arr_2;
+    }
 
     function generate() {
-
       var gamma = parseFloat(document.querySelector('#gamma').value);
-      var steps = parseFloat(document.querySelector('#steps').value);
+      
+      var minLigPercent = parseFloat(document.querySelector('#minLigPercent').value);
+      var maxLigPercent = 100;
+      
+      var rowLen = parseFloat(document.querySelector('#rowLen').value);
+      
+      var maxIndex = parseFloat(document.querySelector('#maxIndex').value);
+      var minIndex = parseFloat(document.querySelector('#minIndex').value);
+      var steps = maxIndex - minIndex + 1;
+      
       var maxValue = parseFloat(document.querySelector('#maxValue').value);
-
-      var lookupTable = generateGammaTable(gamma, steps, maxValue);
+      var minValue = parseFloat(document.querySelector('#minValue').value);
+      
+      var maxLig = 10000;
+      var minLig = Math.floor(minLigPercent/100*maxLig);
+      
+      var lookupTable = generateGammaTable(gamma, (maxLigPercent - 0 + 1), maxLigPercent);
+      var lookupTable_1 = generateGammaTable_1(gamma, steps, minValue, maxValue, minLig, maxLig);
 
       var varName = 'gamma_lut';
-      var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65535 ? 'uint16_t' : 'uint32_t';
+      var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65536 ? 'uint16_t' : 'uint32_t';
 
       var snippet = (
-        `// Gamma brightness lookup table <https://victornpb.github.io/gamma-table-generator>
-// gamma = ${gamma.toFixed(2)} steps = ${steps} range = 0-${maxValue}
+        `// Gamma brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
+// gamma = ${gamma.toFixed(2)}  min_ligBri = ${minLigPercent}%  steps = ${steps}  range = ${minValue}-${maxValue}
 const ${varType} ${varName}[${steps}] = {
-  ${lookupTable.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % 16 === 0 ? ',\n  ' : ',')).join('')}};`);
+  ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % rowLen === 0 ? ',\n  ' : ',')).join('')}};`);
 
       output.innerText = snippet;
       //copy(output);
 
-      plotChart(gamma, steps, maxValue, lookupTable);
+      
+      plotChart(gamma, steps, minValue, maxValue, lookupTable, lookupTable_1, minLigPercent);
     }
 
 
@@ -156,7 +238,12 @@ const ${varType} ${varName}[${steps}] = {
     }
 
 
-    function plotChart(gamma, steps, maxValue, lookupTable) {
+    function plotChart(gamma, steps, minValue, maxValue, lookupTable, lookupTable_1, minLigPercent) {
+      for (var gamma_index = 0; gamma_index < 100; gamma_index++) {
+        if(Math.pow(gamma_index/100, gamma)*100 >= minLigPercent)
+          break;
+      }
+    
       Highcharts.chart('chart', {
         chart: {
           type: 'line',
@@ -171,7 +258,7 @@ const ${varType} ${varName}[${steps}] = {
           text: 'Gamma curve'
         },
         subtitle: {
-          text: `gamma = ${gamma.toFixed(2)} steps = ${steps} range = 0-${maxValue}`
+          text: `gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}`
         },
         plotOptions: {
           line: {
@@ -190,27 +277,42 @@ const ${varType} ${varName}[${steps}] = {
         yAxis: {
           title: {
             enabled: true,
-            text: 'Corrected value',
+            text: 'PWM value (%)',
           },
           type: "linear",
-          tickLength: 2,
-          tickInterval: 2,
-          ceiling: maxValue,
-          softMax: maxValue,
+          tickLength: 1,
+          tickInterval: 1,
+          ceiling: 100,
+          softMax: 100,
           min: 0,
           // startOnTick: true,
         },
         xAxis: {
           title: {
             enabled: true,
-            text: 'Input Value',
+            text: 'Brightness Value (%)',
           },
-          tickLength: 2,
-          tickInterval: 2,
-          softMax: steps,
+          tickLength: 1,
+          tickInterval: 1,
+          softMax: (100 - 0 + 1),
         },
         tooltip: {
           shared: true,
+          pointFormatter: function () {
+            if (this.x < gamma_index) {
+              lastX = this.x;
+              //return `x: ${lookupTable[this.x]}`;
+              return null;
+            }
+            if (this.x != lastX) {
+              lastX = this.x;
+              if(this.x == 100) 
+                return `bri: ${this.x}%, PWM: ${maxValue}`;
+              else
+                return `bri: ${Math.floor(Math.pow(this.x/100, gamma)*100)}%, PWM: ${lookupTable_1[Math.floor((this.x - gamma_index) / (100 - gamma_index) * (steps - 1)+0.5)]}`;
+            }
+            return null;
+          }
         },
 
         series: [
@@ -218,15 +320,23 @@ const ${varType} ${varName}[${steps}] = {
             name: 'Linear',
             type: "line",
             step: "left",
-            data: lookupTable.map((y, i) => i * (maxValue / steps)),
-            color: '#cccccc'
+            data: lookupTable.map((y, i) => i * (100 / (100 - 0 + 1))),
+            color: '#808000'
           },
           {
             name: `Gamma ${gamma}`,
             type: "line",
             step: "left",
             data: lookupTable,
-            color: '#000088'
+            zones: [
+              {
+                value: minLigPercent,
+                color: '#C0C0C0'
+              },
+              {
+                color: '#000088'
+              }
+            ]
           },
         ],
 

@@ -1,5 +1,5 @@
 # gamma-table-generator
-Click here to use it [Online Gamma Table Generator](https://victornpb.github.io/gamma-table-generator/)
+Click here to use it [Online Gamma Table Generator](https://pigluffy.github.io/gamma-table-generator/index.html)
 
 -----
 
@@ -19,4 +19,4 @@ When an LED emits light, gamma correction is used to account for the power-law r
 
 ----
 
-[<img src="https://user-images.githubusercontent.com/3372598/69500837-862ed980-0edd-11ea-8807-761840f35ec8.png" width="480">](https://victornpb.github.io/gamma-table-generator/)
+[<img src="https://blogger.googleusercontent.com/img/a/AVvXsEhnn1jg2ef-JvGEUzfI96jLYM7yFAXAtdwIY8swP1HjYAf0wuLHZjIkiXmzeuTxHo0McolgdGvXCvfhVklkmpKuXRmm-YPL_ezR7rP7BXMSLNdT7QzPj_7Uaigk_bl1X6eux9I6YioepscQOV7WqANRa6XY1glVqhyjDOjTcCbR75MjWa3NHpw6vuKA2Bvx">](https://pigluffy.github.io/gamma-table-generator/index.html)
