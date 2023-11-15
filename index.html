@@ -214,7 +214,7 @@
         `// Gamma brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
 // gamma = ${gamma.toFixed(2)}  min_ligBri = ${minLigPercent}%  steps = ${steps}  range = ${minValue}-${maxValue}
 const ${varType} ${varName}[${steps}] = {
-  ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % rowLen === 0 ? ',\n  ' : ',')).join('')}};`);
+  ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % rowLen === 0 ? ((i + 1) === steps ? ' ' : ',\n  ') : ((i + 1) === steps ? ' ' : ','))).join('')}};`);
 
       output.innerText = snippet;
       //copy(output);
