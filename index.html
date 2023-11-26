@@ -322,12 +322,14 @@ const ${varType} ${varName}[${steps}] = {
 
     function plotChart(gamma, steps, minValue, maxValue, lookupTable, lookupTable_1, minLigPercent) {
       if(gamma > 0) {
+        var curveName = 'Gamma curve';
         for (var gamma_index = 0; gamma_index < 100; gamma_index++) {
           if(Math.pow(gamma_index/100, gamma)*100 >= minLigPercent)
             break;
         }
       }
       else {
+        var curveName = 'S-curve curve';
         var sCurve_Maxval = ((1 / (1 + Math.exp(gamma * (99 - 100 / 2) / (100)))) * 100)*100;
         var sCurve_Minval = ((1 / (1 + Math.exp(gamma * (0 - 100 / 2) / (100)))) * 100)*100;
         
@@ -348,7 +350,7 @@ const ${varType} ${varName}[${steps}] = {
           // width: 600,
         },
         title: {
-          text: 'Gamma curve'
+          text: curveName
         },
         subtitle: {
           text: `gamma = ${gamma.toFixed(2)} steps = ${steps} range = ${minValue}-${maxValue}`
