@@ -48,7 +48,7 @@
         <div class="col-sm-10">
           <input id="gamma" type="text" class="form-control" placeholder="" value="2.2">
           <div>
-            Gamma correction values. Can trigger a hidden mode in the S-curve if the gamma correction value is negative.
+            Gamma correction values. Can trigger a hidden mode in the S-curve if the Gamma correction value is negative.
           </div>
         </div>
       </div>
@@ -329,7 +329,7 @@ const ${varType} ${varName}[${steps}] = {
         }
       }
       else {
-        var curveName = 'S-curve curve';
+        var curveName = 'S-curve';
         var sCurve_Maxval = ((1 / (1 + Math.exp(gamma * (99 - 100 / 2) / (100)))) * 100)*100;
         var sCurve_Minval = ((1 / (1 + Math.exp(gamma * (0 - 100 / 2) / (100)))) * 100)*100;
         
