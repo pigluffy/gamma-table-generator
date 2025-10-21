@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Gamma lookup table generator</title>
+  <title data-i18n-key="pageTitle">Gamma lookup table generator</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,90 +34,103 @@
     .input-group-addon.email {
       width: auto;
     }
+    
+    /* 讓語系選擇器在左上角 */
+    .language-switcher {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <h2>Gamma lookup table generator</h2>
+    <h2 data-i18n-key="pageHeader">Gamma lookup table generator</h2>
     <br>
+    
+    <div class="language-switcher">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default btn-sm" onclick="setLanguage('en')">en</button>
+        <button type="button" class="btn btn-default btn-sm" onclick="setLanguage('zh-TW')">zh-TW</button>
+        <button type="button" class="btn btn-default btn-sm" onclick="setLanguage('zh-CN')">zh-CN</button>
+      </div>
+    </div>
     <form class="form-horizontal">
 
       <div class="form-group">
-        <label for="gamma" class="col-sm-2 control-label">Gamma</label>
+        <label for="gamma" class="col-sm-2 control-label" data-i18n-key="gammaLabel">Gamma</label>
         <div class="col-sm-10">
           <input id="gamma" type="text" class="form-control" placeholder="" value="2.2">
-          <div>
+          <div data-i18n-key="gammaDesc">
             Gamma correction values. Can trigger a hidden mode in the S-curve if the Gamma correction value is negative.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="minLigPercent" class="col-sm-2 control-label">Min Light Brightness percent</label>
+        <label for="minLigPercent" class="col-sm-2 control-label" data-i18n-key="minLigPercentLabel">Min Light Brightness percent</label>
         <div class="col-sm-10">
           <input id="minLigPercent" type="text" class="form-control" placeholder="" value="10">
-          <div>
+          <div data-i18n-key="minLigPercentDesc">
             Minimum percentage of light brightness. (%)
           </div>
         </div>
       </div>
       
       <div class="form-group">
-        <label for="rowLen" class="col-sm-2 control-label">Row Length</label>
+        <label for="rowLen" class="col-sm-2 control-label" data-i18n-key="rowLenLabel">Row Length</label>
         <div class="col-sm-10">
           <input id="rowLen" type="text" class="form-control" placeholder="" value="10">
-          <div>
+          <div data-i18n-key="rowLenDesc">
             The length of each row in the Lookup Table.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="minIndex" class="col-sm-2 control-label">Min_Array_Index</label>
+        <label for="minIndex" class="col-sm-2 control-label" data-i18n-key="minIndexLabel">Min_Array_Index</label>
         <div class="col-sm-10">
           <input id="minIndex" type="text" class="form-control" placeholder="" value="1">
-          <div>
+          <div data-i18n-key="arrayIndexDesc">
             This will be the size from 0 to Steps(Max_Array_Index - Min_Array_Index + 1) of your array.
           </div>
         </div>
       </div>
       
       <div class="form-group">
-        <label for="maxIndex" class="col-sm-2 control-label">Max_Array_Index</label>
+        <label for="maxIndex" class="col-sm-2 control-label" data-i18n-key="maxIndexLabel">Max_Array_Index</label>
         <div class="col-sm-10">
           <input id="maxIndex" type="text" class="form-control" placeholder="" value="100">
-          <div>
+          <div data-i18n-key="arrayIndexDesc">
             This will be the size from 0 to Steps(Max_Array_Index - Min_Array_Index + 1) of your array.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="minValue" class="col-sm-2 control-label">Min PWM Value</label>
+        <label for="minValue" class="col-sm-2 control-label" data-i18n-key="minValueLabel">Min PWM Value</label>
         <div class="col-sm-10">
           <input id="minValue" type="text" class="form-control" placeholder="" value="0">
-          <div>
+          <div data-i18n-key="minValueDesc">
             Minimum PWM value.
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="maxValue" class="col-sm-2 control-label">Max PWM Value</label>
+        <label for="maxValue" class="col-sm-2 control-label" data-i18n-key="maxValueLabel">Max PWM Value</label>
         <div class="col-sm-10">
           <input id="maxValue" type="text" class="form-control" placeholder="" value="100">
-          <div>
+          <div data-i18n-key="maxValueDesc">
             Maximum PWM value. (8-bit = 255, 10-bit = 1023, 16-bit = 65535 32-bit = over 65535)
           </div>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="evenNums_fg" class="col-sm-2 control-label">PWM Value Types</label>
+        <label for="evenNums_fg" class="col-sm-2 control-label" data-i18n-key="evenNumsFgLabel">PWM Value Types</label>
         <div class="col-sm-10">
           <input id="evenNums_fg" type="text" class="form-control" placeholder="" value="0">
-          <div>
+          <div data-i18n-key="evenNumsFgDesc">
             Given a PWM array of integers (both normal and even). (normal = 0, even = 1) 
           </div>
         </div>
@@ -125,7 +138,7 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="button" class="btn btn-default" onclick="generate()"> Generate </button>
+          <button type="button" class="btn btn-default" onclick="generate()" data-i18n-key="generateButton"> Generate </button>
         </div>
       </div>
 
@@ -135,10 +148,10 @@
 
     <div id="chart"></div>
     <br>
-    <h4>C++ Snippet</h4>
+    <h4 data-i18n-key="cppSnippetHeader">C++ Snippet</h4>
 
     <pre id="output" class="well">
-    <div class="text-muted text-center small">
+    <div class="text-muted text-center small" data-i18n-key="clickGenerate">
         Click generate
     </div>
 </pre>
@@ -154,9 +167,117 @@
 
 
   <script type="text/javascript">
+    // 國際化 (i18n) 字典
+    const translations = {
+      'en': {
+        pageTitle: 'Gamma lookup table generator',
+        pageHeader: 'Gamma lookup table generator',
+        gammaLabel: 'Gamma',
+        gammaDesc: 'Gamma correction values. Can trigger a hidden mode in the S-curve if the Gamma correction value is negative.',
+        minLigPercentLabel: 'Min Light Brightness percent',
+        minLigPercentDesc: 'Lookup table start pos: 10% = from 10% of curve. (%)',
+        rowLenLabel: 'Row Length',
+        rowLenDesc: 'Lookup table array row length setter.',
+        minIndexLabel: 'Min_Array_Index',
+        maxIndexLabel: 'Max_Array_Index',
+        arrayIndexDesc: 'steps = ( maxIndexLabel - minIndexLabel + 1 ), steps = Lookup table index size。',
+        minValueLabel: 'Min PWM Value',
+        minValueDesc: 'Minimum PWM value.',
+        maxValueLabel: 'Max PWM Value',
+        maxValueDesc: 'range = minValueDesc ~ maxValueLabel. (8-bit = 255, 10-bit = 1023, 16-bit = 65535 32-bit = over 65535)',
+        evenNumsFgLabel: 'PWM Value Types',
+        evenNumsFgDesc: 'Lookup table PWM value type: 0 - Continuous integers. 1 - Even integers.',
+        generateButton: 'Generate',
+        cppSnippetHeader: 'C++ Snippet',
+        clickGenerate: 'Click generate',
+        chartTitleGamma: 'Gamma curve',
+        chartTitleScurve: 'S-curve',
+        // footer: 'Master:Vitim.us', // 腳註不翻譯
+        // fork: 'Fork:Pigyang.tw' // 腳註不翻譯
+      },
+      'zh-TW': {
+        pageTitle: 'Gamma lookup table生成器',
+        pageHeader: 'Gamma lookup table生成器',
+        gammaLabel: 'Gamma',
+        gammaDesc: 'Gamma 校正值。如果Gamma為正值則為非線性曲線，如果Gamma為負值則為S曲線。',
+        minLigPercentLabel: '最小亮度百分比',
+        minLigPercentDesc: 'lookup table開始生成的起始位置，如果寫10%代表從曲線的10%開始生成lookup table，不同%數的起始點會有不同起始斜率。(%)',
+        rowLenLabel: '行長度',
+        rowLenDesc: '此數值決定lookup table生成的陣列每一行長度。',
+        minIndexLabel: 'lookup table最小陣列值',
+        maxIndexLabel: 'lookup table最大陣列值',
+        arrayIndexDesc: 'steps = ( maxIndexLabel - minIndexLabel + 1 ), setps為lookup talbe的index大小。',
+        minValueLabel: 'lookup table的最小PWM值',
+        minValueDesc: 'lookup table的最小PWM值。',
+        maxValueLabel: 'lookup table的最大PWM值',
+        maxValueDesc: 'range = minValueDesc ~ maxValueLabel。(8 位元 = 255, 10 位元 = 1023, 16 位元 = 65535 32 位元 = 超過 65535)',
+        evenNumsFgLabel: 'lookup table PWM數值類型',
+        evenNumsFgDesc: '0: 連續的整數。1: 偶數的整數',
+        generateButton: '生成',
+        cppSnippetHeader: 'C++ 代碼片段',
+        clickGenerate: '點擊生成',
+        chartTitleGamma: 'Gamma curve',
+        chartTitleScurve: 'S-curve',
+      },
+      'zh-CN': {
+        pageTitle: 'Gamma lookup table生成器',
+        pageHeader: 'Gamma lookup table生成器',
+        gammaLabel: 'Gamma',
+        gammaDesc: 'Gamma 校正值。如果Gamma为正值则为非线性曲线，如果Gamma为负值则为S曲线。',
+        minLigPercentLabel: '最小亮度百分比',
+        minLigPercentDesc: 'lookup table开始生成的起始位置，如果写10%代表从曲线的10%开始生成lookup table，不同%数的起始点会有不同起始斜率。(%)',
+        rowLenLabel: '行长度',
+        rowLenDesc: '此数值决定lookup table生成的阵列每一行长度。',
+        minIndexLabel: 'lookup table最小阵列值',
+        maxIndexLabel: 'lookup table最大阵列值',
+        arrayIndexDesc: 'steps = ( maxIndexLabel - minIndexLabel + 1 ), setps为lookup talbe的index大小',
+        minValueLabel: 'lookup table的最小PWM值',
+        minValueDesc: 'lookup table的最小PWM值。',
+        maxValueLabel: 'lookup table的最大PWM值',
+        maxValueDesc: 'range = minValueDesc ~ maxValueLabel。(8 位 = 255, 10 位 = 1023, 16 位 = 65535 32 位 = 超过 65535)',
+        evenNumsFgLabel: 'lookup table PWM数值类型',
+        evenNumsFgDesc: '0: 连续的整数。 1: 偶数的整数',
+        generateButton: '生成',
+        cppSnippetHeader: 'C++ 代码片段',
+        clickGenerate: '点击生成',
+        chartTitleGamma: 'Gamma curve',
+        chartTitleScurve: 'S-curve',
+      }
+    };
+
+    let currentLang = 'en'; // 預設語言
+
+    function setLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      const t = translations[lang];
+
+      // 替換所有帶有 data-i18n-key 屬性的元素內容
+      document.querySelectorAll('[data-i18n-key]').forEach(el => {
+        const key = el.getAttribute('data-i18n-key');
+        if (t[key] !== undefined) {
+          // 標題特殊處理
+          if (el.tagName === 'TITLE') {
+            el.textContent = t[key];
+          } 
+          // 替換 input 旁邊的 label 和 div (描述文字)
+          else if (el.tagName === 'LABEL' || el.tagName === 'DIV' || el.tagName === 'BUTTON' || el.tagName === 'H2' || el.tagName === 'H4') {
+            el.textContent = t[key];
+          }
+        }
+      });
+      
+      // 確保 generate 函數執行以更新 C++ Snippet 輸出
+      if (document.querySelector('#output').innerText.trim() !== t.clickGenerate) {
+        generate();
+      }
+    }
+
 
     window.onload = function () {
-
+      // 頁面載入時設定預設語言
+      setLanguage(currentLang);
+      
       gamma.oninput = steps.oninput = maxValue.oninput = generate;
       //generate();
     }
@@ -293,10 +414,25 @@
       }
       
       var varType = maxValue < 256 ? 'uint8_t' : maxValue < 65536 ? 'uint16_t' : 'uint32_t';
-
-      var snippet = (
-        `// ${curveName} brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
-// gamma = ${gamma.toFixed(2)}${hiddenMode}  min_ligBri = ${minLigPercent}%  steps = ${steps}  range = ${minValue}-${maxValue}
+      
+      // Get translated text for comment
+      const commentLang = currentLang; // 使用當前語言
+      const commentTranslation = translations[commentLang];
+      let translatedCurveName = curveName;
+      if (commentLang !== 'en') {
+        if (curveName === 'Gamma') {
+          translatedCurveName = commentTranslation.chartTitleGamma.replace(' 曲線', ''); // 移除 "曲線" 以便在程式碼中更簡潔
+        } else if (curveName === 'S-curve') {
+          translatedCurveName = commentTranslation.chartTitleScurve.replace(' 曲線', ''); // 移除 "曲線" 以便在程式碼中更簡潔
+        }
+      }
+      
+      const snippet = (
+        `// ${translatedCurveName} brightness lookup table <https://pigluffy.github.io/gamma-table-generator/index.html>
+// Gamma = ${gamma.toFixed(2)}${hiddenMode}
+// Min Light Brightness percent = ${minLigPercent}%
+// steps( Max_Array_Index - Min_Array_Index + 1) = ${steps}
+// range( Min PWM Value ~ Max PWM Value ) = ${minValue}~${maxValue}
 const ${varType} ${varName}[${steps}] = {
   ${lookupTable_1.map((x, i) => String(x).padStart(4, ' ') + ((i + 1) % rowLen === 0 ? ((i + 1) == steps ? ' ' : ',\n  ') : ((i + 1) === steps ? ' ' : ','))).join('')}};`);
 
@@ -323,15 +459,17 @@ const ${varType} ${varName}[${steps}] = {
 
 
     function plotChart(gamma, steps, minValue, maxValue, lookupTable, lookupTable_1, minLigPercent) {
+      const t = translations[currentLang];
+      
       if(gamma > 0) {
-        var curveName = 'Gamma curve';
+        var curveName = t.chartTitleGamma;
         for (var gamma_index = 0; gamma_index < 100; gamma_index++) {
           if(Math.pow(gamma_index/100, gamma)*100 >= minLigPercent)
             break;
         }
       }
       else {
-        var curveName = 'S-curve';
+        var curveName = t.chartTitleScurve;
         var sCurve_Maxval = ((1 / (1 + Math.exp(gamma * (99 - 100 / 2) / (100)))) * 100)*100;
         var sCurve_Minval = ((1 / (1 + Math.exp(gamma * (0 - 100 / 2) / (100)))) * 100)*100;
         
@@ -425,7 +563,7 @@ const ${varType} ${varName}[${steps}] = {
             color: '#808000'
           },
           {
-            name: `Gamma ${gamma}`,
+            name: `${curveName} ${gamma}`,
             type: "line",
             step: "left",
             data: lookupTable,
